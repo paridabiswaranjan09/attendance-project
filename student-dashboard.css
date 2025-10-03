@@ -1,0 +1,589 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f0f2f5;
+}
+
+/* ----------------- Dashboard Container ----------------- */
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    align-items: stretch;
+    gap: 5px; /* sidebar aur main panel ke beech gap */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd3a5, #fd8e70, #ff6b9d);
+    background-size: 400% 400%;
+    animation: dashboardGradient 20s ease infinite;
+    transition: all 0.3s ease;
+}
+
+/* Smooth gradient animation for dashboard */
+@keyframes dashboardGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ----------------- Sidebar ----------------- */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    padding: 25px 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+    color: #333;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Profile */
+.profile {
+    text-align: center;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.profile img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.profile:hover img {
+    transform: scale(1.1); /* Mini animation */
+}
+
+.profile img:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+.profile h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 5px 0;
+}
+
+.course-branch-text {
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 0;
+    font-weight: 700;
+}
+
+/* Sidebar Buttons */
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.2));
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebar-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2), rgba(255,255,255,0.4));
+    transition: all 0.4s ease;
+    transform: skewX(-20deg);
+}
+
+.sidebar-btn:hover::before {
+    left: 0;
+}
+
+.sidebar-btn:hover {
+    font-weight: 750;
+    font-size: medium;
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.4));
+}
+
+/* Active button highlight */
+.sidebar-btn.active {
+    background: linear-gradient(135deg, #ffffff55, #ffffff33);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.sidebar.collapsed {
+    width: 70px;
+    transition: width 0.4s ease;
+}
+
+
+
+/* ----------------- Main Panel ----------------- */
+.main-panel {
+    flex: 1;
+    padding: 40px;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f); /* soft orange-pink gradient for student */
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow: -3px 0 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    overflow-y: auto;
+}
+
+.main-panel h1 {
+    font-size: 2rem;
+    color: #333;
+    animation: fadeInUp 0.6s ease;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ----------------- Mini Animations ----------------- */
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+/* Gradient animation for main panel (optional) */
+@keyframes panelGradient {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* ----------------- Mobile Responsive ----------------- */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        border-radius: 0;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    }
+    .main-panel {
+        border-radius: 0;
+        box-shadow: none;
+        padding: 20px;
+        background-size: 200% 200%;
+        animation: panelGradient 25s ease infinite; /* slower for smoothness */
+    }
+    .profile img {
+        width: 80px;
+        height: 80px;
+    }
+    .sidebar-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* ------------------ View Attendance Section ------------------ */
+/* Attendance Section Table */
+#studentAttendanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    min-width: 400px;
+    transition: all 0.3s ease;
+}
+
+#studentAttendanceTable th {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    color: #fff;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+#studentAttendanceTable td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+#studentAttendanceTable tbody tr:nth-child(even) {
+    background-color: #f8f9ff;
+}
+
+#studentAttendanceTable tbody tr:hover {
+    background-color: #e3f2fd;
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+
+/* Status Classes (Present/Absent with colors) */
+.status-present {
+    color: #4caf50;
+    font-weight: bold;
+    background: #e8f5e8;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.status-present:hover {
+    background: #c8e6c9;
+    transform: scale(1.05);
+}
+
+.status-absent {
+    color: #f44336;
+    font-weight: bold;
+    background: #ffebee;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.status-absent:hover {
+    background: #ffcdd2;
+    transform: scale(1.05);
+}
+
+/* Percentage Column Styling */
+#studentAttendanceTable td:last-child {
+    font-weight: 600;
+    color: #ff6b9d;
+    text-align: center;
+}
+
+/* PDF Button */
+#downloadStudentPdfBtn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin: 10px 0;
+}
+
+#downloadStudentPdfBtn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fecfef, #ff9a9e);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+}
+
+#downloadStudentPdfBtn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    color: #999;
+    opacity: 0.7;
+}
+
+/* Date Input Styling */
+#studentAttendanceDate {
+    width: 200px;
+    padding: 10px 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+    background: #f0f4f8;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+#studentAttendanceDate:focus {
+    box-shadow: 0 0 5px #ff9a9e, 0 0 0 3px rgba(255, 154, 158, 0.3);
+    background: #fff;
+    transform: translateY(-1px);
+}
+
+/* Attendance Footer */
+.attendance-footer {
+    margin-top: 20px;
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Attendance Heading */
+#viewAttendanceHeading {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #f4d7f0, #f15ec2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Empty State Messages */
+#studentAttendanceTableBody td[colspan="4"] {
+    padding: 40px;
+    font-size: 16px;
+    color: #666;
+    background: #f8f9fa;
+    border: none;
+    text-align: center;
+}
+
+/* ------------------ Apply Complaint Section ------------------ */
+.apply-complaint-section {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    animation: fadeInUp 0.6s ease;
+}
+
+.apply-complaint-section h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.complaint-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.complaint-form input[readonly] {
+    background: #f0f4f8;
+    color: #666;
+    font-weight: 500;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#complaintText {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color 0.3s ease;
+}
+
+#complaintText:focus {
+    border-color: #ff9a9e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 154, 158, 0.3);
+}
+
+#complaintPhoto {
+    padding: 10px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#complaintPhoto:hover {
+    border-color: #ff9a9e;
+    background: #fff;
+}
+
+#submitComplaintBtn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    align-self: center;
+}
+
+#submitComplaintBtn:hover {
+    background: linear-gradient(135deg, #fecfef, #ff9a9e);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+}
+
+/* Complaint Message */
+#complaintMessage.success {
+    color: #4caf50;
+    background: #e8f5e8;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #4caf50;
+    animation: slideIn 0.3s ease;
+}
+
+#complaintMessage.error {
+    color: #f44336;
+    background: #ffebee;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #f44336;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* ------------------ Responsive for Sections ------------------ */
+@media (max-width: 768px) {
+    #studentAttendanceTable {
+        font-size: 12px;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+    
+    #studentAttendanceTable th,
+    #studentAttendanceTable td {
+        padding: 8px 6px;
+        min-width: 80px;
+    }
+    
+    #studentAttendanceDate {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .attendance-footer {
+        padding: 10px;
+    }
+    
+    #downloadStudentPdfBtn {
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .apply-complaint-section {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    #complaintText {
+        min-height: 100px;
+    }
+    
+    .main-panel {
+        padding: 20px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        gap: 0;
+    }
+    
+    .sidebar {
+        padding: 15px 10px;
+    }
+    
+    .profile h3 {
+        font-size: 1rem;
+    }
+    
+    .course-branch-text {
+        font-size: 0.8rem;
+    }
+    
+    #studentAttendanceTable,
+    .apply-complaint-section {
+        font-size: 12px;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+    
+    .complaint-form {
+        gap: 10px;
+    }
+    
+    #submitComplaintBtn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+/* Loading State for Buttons (Optional) */
+button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+button.loading::after {
+    content: " ...";
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: " ."; }
+    40% { content: " . ."; }
+    60% { content: " . . ."; }
+    80%, 100% { content: " . . . ."; }
+}
+
+/* Extra Focus States for Accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 154, 158, 0.3);
+}
+
+/* Ensure Tables Don't Overflow on Smaller Screens */
+.view-attendance-section,
+.apply-complaint-section {
+    padding: 15px;
+    animation: fadeInUp 0.6s ease;
+}

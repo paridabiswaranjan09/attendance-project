@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="teacher-dashboard.css" />
+  <!-- jsPDF for PDF Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="profile">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile Picture">
+        <h3 id="teacherNameMain">Hey, <span id="teacherNameDisplay">Teacher</span></h3>
+        <p id="teacherCourseBranch" class="course-branch-text">No course selected</p>
+      </div>
+      <div class="sidebar-buttons">
+        <button class="sidebar-btn" id="studentsBtn">Students</button>
+        <button class="sidebar-btn" id="takeAttendanceBtn">Take Attendance</button>
+        <button class="sidebar-btn" id="viewAttendanceBtn">View Attendance</button>
+        <button class="sidebar-btn" id="viewComplainBtn">View Complain</button>
+        <button class="sidebar-btn" id="logoutBtn">Log Out</button>
+      </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="main-panel" id="mainPanel">
+      <h1>Welcome, Teacher!</h1>
+
+      <!-- Students Section (unchanged) -->
+      <div class="students-section" id="studentsSection" style="display:none;">
+        <h1 id="studentsHeading">Students List</h1>
+        <table id="studentsTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Regd No.</th>
+              <th>Attendance (%)</th>
+              <th class="action-col">Action</th> <!-- Initially hidden -->
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody">
+            <tr><td colspan="4" style="text-align:center;">No students yet</td></tr>
+          </tbody>
+        </table>
+        <div class="students-footer" style="margin-top:15px; text-align:center;">
+          <button id="addStudentBtn">Add Student</button> 
+          <button id="removeStudentBtn">Remove Student</button>
+        </div>
+      </div>
+
+      <!-- Take Attendance Section (unchanged) -->
+      <div class="take-attendance-section" id="takeAttendanceSection" style="display:none;">
+        <h1 id="takeAttendanceHeading">Take Attendance</h1>
+        <input type="date" id="attendanceDate" style="margin-bottom:10px; padding:8px; border-radius:5px;">
+        <table id="attendanceTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Regd No.</th>
+              <th>Present</th>
+              <th>Absent</th>
+            </tr>
+          </thead>
+          <tbody id="attendanceTableBody">
+            <tr><td colspan="4" style="text-align:center;">No students yet</td></tr>
+          </tbody>
+        </table>
+        <div class="attendance-footer" style="margin-top:15px; text-align:center;">
+          <button id="saveAttendanceBtn">Save Attendance</button>
+        </div>
+      </div>
+
+      <!-- View Attendance Section (unchanged) -->
+      <div class="view-attendance-section" id="viewAttendanceSection" style="display:none;">
+        <h1 id="viewAttendanceHeading">View Attendance Records</h1>
+        <input type="date" id="viewAttendanceDate" style="margin-bottom:10px; padding:8px; border-radius:5px;">
+        <table id="viewAttendanceRecordsTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Regd No.</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="viewAttendanceRecordsBody">
+            <tr><td colspan="3" style="text-align:center;">Select date to view records</td></tr>
+          </tbody>
+        </table>
+        <div class="attendance-footer" style="margin-top:15px; text-align:center;">
+          <button id="downloadPdfBtn">Download PDF</button>
+        </div>
+      </div>
+
+      <!-- UPDATED: View Complain Section -->
+      <div class="view-complain-section" id="viewComplainSection" style="display:none;">
+        <h1 id="viewComplainHeading">Student Complaints</h1>
+        <table id="complaintsTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Regd No.</th>
+              <th>Complaint</th>
+              <th>Photo</th>
+              <th>Timestamp</th>
+              <th class="action-col">Action</th> <!-- Initially hidden -->
+            </tr>
+          </thead>
+          <tbody id="complaintsTableBody">
+            <tr><td colspan="6" style="text-align:center;">No complaints yet</td></tr> <!-- Updated colspan to 6 -->
+          </tbody>
+        </table>
+        <!-- NEW: Footer with Toggle Button -->
+        <div class="complaints-footer" style="margin-top: 15px; text-align:center; justify-content: center;">
+          <button id="toggleComplaintActions">Show Remove Options</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Student Modal (unchanged) -->
+  <div id="addStudentModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeAddStudentModal" class="close">&times;</span>
+      <h2>Add Student</h2>
+      <input type="text" id="studentNameInput" placeholder="Student Name"> <br>
+      <input type="text" id="studentRegdNoInput" placeholder="Regd No.">
+      <br>
+      <button id="confirmAddStudentBtn">Add</button>
+    </div>
+  </div>
+
+  <!-- Course Selection Modal (unchanged) -->
+  <div id="courseSelectionModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeCourseSelectionModal" class="close">&times;</span>
+      <h2>Choose your course and branch</h2>
+      <table id="courseSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+        <thead>
+          <tr><th>Course Name</th></tr>
+        </thead>
+        <tbody id="courseSelectionTableBody">
+          <!-- Courses will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Branch Selection Modal (unchanged) -->
+  <div id="branchSelectionModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeBranchSelectionModal" class="close">&times;</span>
+      <h2>Choose Branch for <span id="selectedCourseName"></span></h2>
+      <table id="branchSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+        <thead>
+          <tr><th>Branch Name</th></tr>
+        </thead>
+        <tbody id="branchSelectionTableBody">
+          <!-- Branches will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NEW: Photo Modal for Full View -->
+  <div id="photoModal" class="modal" style="display:none;">
+    <div class="modal-content" style="width:80%; max-width:500px; text-align:center;">
+      <span id="closePhotoModal" class="close">&times;</span>
+      <img id="fullPhoto" src="" alt="Complaint Photo" style="max-width:100%; max-height:70vh; border-radius:10px;">
+    </div>
+  </div>
+
+  <script src="teacher-dashboard.js"></script>
+</body>
+</html>

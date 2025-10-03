@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Attendance Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-dashboard.css" />
+    <!-- jsPDF for PDF Download in View Attendance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile Picture">
+                <h3>Hey, <span id="studentNameDisplay">Student</span></h3>
+                <p id="studentCourseBranch" class="course-branch-text">No course selected</p>
+            </div>
+            <div class="sidebar-buttons">
+                <button class="sidebar-btn" id="viewAttendanceBtn">View Attendance</button>
+                <button class="sidebar-btn" id="applyComplaintBtn">Apply Complaint</button>
+                <button class="sidebar-btn" id="logoutBtn">Log Out</button>
+            </div>
+        </div>
+
+        <!-- Main Panel -->
+        <div class="main-panel" id="mainPanel">
+            <h1>Welcome, Student!</h1>
+
+            <!-- View Attendance Section -->
+            <div class="view-attendance-section" id="viewAttendanceSection" style="display:none;">
+                <h1 id="viewAttendanceHeading">Your Attendance Records</h1>
+                <input type="date" id="studentAttendanceDate" style="margin-bottom:10px; padding:8px; border-radius:5px;">
+                <table id="studentAttendanceTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Regd No.</th>
+                            <th>Status</th>
+                            <th>Percentage (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentAttendanceTableBody">
+                        <tr><td colspan="4" style="text-align:center;">Select date to view your record</td></tr>
+                    </tbody>
+                </table>
+                <div class="attendance-footer" style="margin-top:15px; text-align:center;">
+                    <button id="downloadStudentPdfBtn">Download PDF</button>
+                </div>
+            </div>
+
+            <!-- Apply Complaint Section -->
+            <div class="apply-complaint-section" id="applyComplaintSection" style="display:none;">
+                <h1>Submit Your Complaint</h1>
+                <div class="complaint-form">
+                    <input type="text" id="complaintStudentName" placeholder="Full Name" readonly>
+                    <input type="text" id="complaintStudentRegdNo" placeholder="Regd No." readonly>
+                    <textarea id="complaintText" placeholder="Describe your complaint here..." rows="6" style="width:95%; padding:10px; border-radius:8px; border:1px solid #ddd; resize:vertical; font-family:'Poppins', sans-serif;"></textarea>
+                    <input type="file" id="complaintPhoto" accept="image/*" style="margin:10px 0;">
+                    <button id="submitComplaintBtn">Submit Complaint</button>
+                </div>
+                <div id="complaintMessage" style="margin-top:10px; font-weight:600;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="student-dashboard.js"></script>
+</body>
+</html>

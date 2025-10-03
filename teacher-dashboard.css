@@ -1,0 +1,982 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f0f2f5;
+}
+
+/* ----------------- Dashboard Container ----------------- */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  align-items: stretch;
+  gap: 7px; /* sidebar aur main panel ke beech gap */
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #afd4fa, #cce1f8, #c3e1fe);
+  background-size: 400% 400%;
+  animation: dashboardGradient 20s ease infinite;
+  transition: all 0.3s ease;
+}
+/* Smooth gradient animation for dashboard */
+@keyframes dashboardGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ----------------- Sidebar ----------------- */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(135deg, #74efb2, #5ce1e8);
+  padding: 25px 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+  color: #fff;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* Sidebar Profile */
+.profile {
+  text-align: center;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+.profile:hover img {
+  transform: scale(1.1);
+}
+.profile img:hover {
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+.profile h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #fff;
+}
+.course-branch-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff; /* light cyan */
+  background: linear-gradient(135deg, #5cfcc9, #b4fee7);
+  padding: 4px 10px;
+  border-radius: 12px;
+  max-width: 220px;
+  margin: 0 auto;
+  box-shadow: 0 0 8px rgba(208, 240, 253, 0.7);
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  user-select: none;
+  transition: background 0.3s ease;
+  cursor: pointer; /* Make it look clickable */
+}
+.course-branch-text:hover {
+  background: #5cfcc9;
+  box-shadow: 0 0 12px rgba(208, 240, 253, 1);
+  transform: scale(1.05); /* Subtle hover animation */
+}
+
+/* Sidebar Buttons */
+.sidebar button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.15));
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.sidebar button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+  transition: all 0.4s ease;
+  transform: skewX(-20deg);
+}
+.sidebar button:hover::before {
+  left: 0;
+}
+.sidebar button:hover {
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+/* Active button highlight */
+.sidebar button.active {
+  background: linear-gradient(135deg, #ffffff55, #ffffff33);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+.sidebar button.active::before {
+  left: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2), rgba(255,255,255,0.4));
+}
+.sidebar.collapsed {
+  width: 70px;
+  transition: width 0.4s ease;
+}
+
+/* ----------------- Main Panel ----------------- */
+.main-panel {
+  flex: 1;
+  padding: 40px;
+  background: linear-gradient(135deg, #c39df4, #cfe7f3);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: -3px 0 20px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+.main-panel h1 {
+  font-size: 2rem;
+  color: #333;
+  animation: fadeInUp 0.6s ease;
+}
+
+/* Mini Animations */
+@keyframes fadeInUp {
+  0% {opacity: 0; transform: translateY(20px);}
+  100% {opacity: 1; transform: translateY(0);}
+}
+
+/* Gradient animation for main panel (optional) */
+@keyframes panelGradient {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+/* ----------------- Mobile Responsive ----------------- */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+  }
+  .main-panel {
+    border-radius: 0;
+    box-shadow: none;
+    background-size: 200% 200%;
+    animation: panelGradient 25s ease infinite;
+  }
+}
+
+/* ---------- Modal Background ---------- */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+}
+
+/* ---------- Modal Content ---------- */
+.modal-content {
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  margin: 8% auto;
+  padding: 30px 20px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+  animation: modalFade 0.4s ease;
+}
+
+/* ---------- Close Button ---------- */
+.close {
+  color: #555;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.close:hover {
+  color: #222;
+}
+
+/* ---------- Inputs (for modals and date inputs) ---------- */
+.modal-content input,
+#attendanceDate,
+#viewAttendanceDate {
+  width: 80%;
+  padding: 10px 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  background: #f0f4f8;
+  transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.modal-content input:focus,
+#attendanceDate:focus,
+#viewAttendanceDate:focus {
+  box-shadow: 0 0 5px #a8edea, 0 0 0 3px rgba(168, 237, 234, 0.3);
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+/* ---------- Modal Buttons ---------- */
+.modal-content button {
+  padding: 10px 25px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #ce8af3, #c8faff);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 750;
+  color: #100d0d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.modal-content button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, #c8faff, #ce8af3);
+}
+
+/* ---------- Table Styling for Modals ---------- */
+#courseSelectionTable, #branchSelectionTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#courseSelectionTable th, #branchSelectionTable th {
+  background: linear-gradient(90deg, #89f7fe, #66a6ff);
+  color: #010000;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+#courseSelectionTable td, #branchSelectionTable td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-weight: 500;
+  color: #333;
+}
+
+#courseSelectionTable tbody tr:hover, #branchSelectionTable tbody tr:hover {
+  background-color: #e0f7ff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#courseSelectionTable tbody tr:last-child td, #branchSelectionTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- Main Sections Styling ---------- */
+.students-section,
+.take-attendance-section,
+.view-attendance-section,
+.view-complain-section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  margin-top: 20px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.students-section h1,
+.take-attendance-section h1,
+.view-attendance-section h1,
+.view-complain-section h1 {
+  color: #4a4a4a;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- General Table Styling (for all main tables) ---------- */
+#studentsTable,
+#attendanceTable,
+#viewAttendanceRecordsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  min-width: 600px; /* Ensure tables don't shrink too much */
+  transition: all 0.3s ease; /* For smooth toggle */
+}
+
+#studentsTable th,
+#attendanceTable th,
+#viewAttendanceRecordsTable th {
+  background: linear-gradient(135deg, #6ac7f6, #c186fc);
+  color: #fff;
+  font-weight: 600;
+  padding: 15px 12px;
+  text-align: left;
+  border: none;
+}
+
+#studentsTable td,
+#attendanceTable td,
+#viewAttendanceRecordsTable td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  font-weight: 500;
+  color: #333;
+  vertical-align: middle;
+}
+
+#studentsTable tbody tr:nth-child(even),
+#attendanceTable tbody tr:nth-child(even),
+#viewAttendanceRecordsTable tbody tr:nth-child(even) {
+  background-color: #f8f9ff;
+}
+
+#studentsTable tbody tr:hover,
+#attendanceTable tbody tr:hover,
+#viewAttendanceRecordsTable tbody tr:hover {
+  background-color: #e3f2fd;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ---------- Attendance Status Styling ---------- */
+.status-present {
+  color: #4caf50;
+  font-weight: bold;
+  background: #e8f5e8;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+.status-absent {
+  color: #f44336;
+  font-weight: bold;
+  background: #ffebee;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+/* ---------- Footer Buttons (Add, Remove, Save) ---------- */
+.students-footer,
+.attendance-footer {
+  margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+#addStudentBtn,
+#saveAttendanceBtn,
+#removeStudentBtn,
+#downloadPdfBtn {
+  padding: 12px 25px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+#addStudentBtn,
+#saveAttendanceBtn {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: #fff;
+}
+
+#addStudentBtn:hover,
+#saveAttendanceBtn:hover {
+  background: linear-gradient(135deg, #45a049, #4caf50);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+#removeStudentBtn {
+  background: linear-gradient(135deg, #f44336, #da190b);
+  color: #fff;
+}
+
+#removeStudentBtn:hover {
+  background: linear-gradient(135deg, #da190b, #f44336);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+}
+
+/* ---------- Download PDF Button Styling ---------- */
+#downloadPdfBtn {
+  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  color: #fff;
+}
+
+#downloadPdfBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #21cbf3, #2196f3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+#downloadPdfBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  color: #999;
+}
+
+/* ---------- Inline Remove Button in Table ---------- */
+.remove-student-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #f44336, #da190b);
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-student-btn:hover {
+  background: linear-gradient(135deg, #da190b, #f44336);
+  transform: scale(1.05);
+  box-shadow: 0 3px 10px rgba(244, 67, 54, 0.3);
+}
+
+/* Radio Buttons in Attendance Table */
+#attendanceTable input[type="radio"] {
+  transform: scale(1.2);
+  margin-right: 5px;
+  accent-color: #667eea; /* Custom radio color */
+}
+
+/* ---------- Action Column Toggle (Initially Hidden) ---------- */
+.action-col {
+  display: none; /* Hidden by default */
+}
+
+#studentsTable.show-actions .action-col {
+  display: table-cell; /* Show when toggled */
+}
+
+/* Ensure the table adjusts width when action column is hidden/shown */
+#studentsTable.show-actions th:nth-child(4),
+#studentsTable.show-actions td:nth-child(4) {
+  width: 120px; /* Fixed width for action column when shown */
+}
+
+/* ---------- Animation ---------- */
+@keyframes modalFade {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive for Tables on Mobile */
+@media (max-width: 768px) {
+  #studentsTable,
+  #attendanceTable,
+  #viewAttendanceRecordsTable {
+    font-size: 14px;
+    min-width: auto;
+  }
+  
+  #studentsTable th,
+  #attendanceTable th,
+  #viewAttendanceRecordsTable th,
+  #studentsTable td,
+  #attendanceTable td,
+  #viewAttendanceRecordsTable td {
+    padding: 8px 5px;
+  }
+  
+    .students-footer button,
+  .attendance-footer button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
+/* Additional responsive adjustments for action column on mobile */
+@media (max-width: 768px) {
+  #studentsTable.show-actions th:nth-child(4),
+  #studentsTable.show-actions td:nth-child(4) {
+    width: auto; /* Auto width on mobile for better fit */
+    padding: 8px 10px;
+  }
+  
+  .remove-student-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    width: 100%; /* Full width on mobile */
+  }
+}
+
+/* Extra styling for better UX on hover and focus */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+input:focus {
+  outline: none;
+}
+
+/* Loading state for buttons (optional, if you add loading in JS) */
+button.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+button.loading::after {
+  content: " ...";
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: " ."; }
+  40% { content: " . ."; }
+  60% { content: " . . ."; }
+  80%, 100% { content: " . . . ."; }
+}
+
+/* View Complain Section Enhancement (if you add more content later) */
+.view-complain-section p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Ensure tables don't overflow on smaller screens */
+@media (max-width: 480px) {
+  .main-panel {
+    padding: 20px 10px;
+  }
+  
+  #studentsTable,
+  #attendanceTable,
+  #viewAttendanceRecordsTable {
+    font-size: 12px;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  
+  .students-section,
+  .take-attendance-section,
+  .view-attendance-section,
+  .view-complain-section {
+    padding: 15px;
+  }
+}
+/* ------------------ View Complain Section ------------------ */
+.view-complain-section {
+    animation: fadeInUp 0.6s ease; /* Smooth entry animation */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8); /* Soft white overlay for readability */
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    overflow-x: auto; /* For mobile responsiveness */
+}
+
+#viewComplainHeading {
+    color: #333;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe); /* Teal-blue gradient for heading */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+}
+
+/* Complaints Table Styles (Matching other teacher tables) */
+#complaintsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-width: 600px; /* Minimum width for desktop */
+    transition: all 0.3s ease;
+}
+
+#complaintsTable th {
+    background: linear-gradient(135deg, #4facfe, #00f2fe); /* Teal-blue gradient, matching teacher theme */
+    color: #fff;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+#complaintsTable td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+    font-size: 14px;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+#complaintsTable tbody tr:nth-child(even) {
+    background-color: #f8f9ff; /* Light blue tint for even rows */
+}
+
+#complaintsTable tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* White for odd rows */
+}
+
+#complaintsTable tbody tr:hover {
+    background-color: #e3f2fd; /* Soft teal hover */
+    transform: scale(1.01); /* Subtle zoom on hover */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(79, 172, 254, 0.2); /* Glow shadow */
+}
+
+/* Specific Column Styles */
+#complaintsTable td:nth-child(3) { /* Complaint Text Column */
+    max-width: 250px;
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Preserve line breaks if any */
+    font-style: italic;
+    color: #555;
+}
+
+#complaintsTable td:nth-child(4) { /* Photo Column */
+    text-align: center;
+    width: 80px; /* Fixed width for photos */
+}
+
+#complaintsTable td:nth-child(5) { /* Timestamp Column */
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Complaint Photo Styles */
+.complaint-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.complaint-photo:hover {
+    transform: scale(1.1); /* Zoom on hover */
+    border-color: #4facfe; /* Teal border on hover */
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3); /* Teal glow */
+}
+
+/* Empty State */
+#complaintsTableBody td[colspan="5"] {
+    padding: 40px;
+    font-size: 16px;
+    color: #999;
+    background: #f8f9fa;
+    border: none;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ------------------ Photo Modal Styles ------------------ */
+#photoModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark backdrop */
+    backdrop-filter: blur(5px); /* Blur effect for focus */
+    animation: modalFade 0.3s ease;
+}
+
+#photoModal .modal-content {
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: modalSlide 0.4s ease;
+}
+
+#photoModal .close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#photoModal .close:hover {
+    color: #4facfe; /* Teal on hover */
+}
+
+#fullPhoto {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+#fullPhoto:hover {
+    transform: scale(1.02); /* Slight zoom in modal */
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlide {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ------------------ Responsive for View Complain ------------------ */
+@media (max-width: 768px) {
+    .view-complain-section {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    #complaintsTable {
+        font-size: 12px;
+        min-width: 100%; /* Full width on mobile */
+    }
+    
+    #complaintsTable th,
+    #complaintsTable td {
+        padding: 8px 6px;
+    }
+    
+    #complaintsTable td:nth-child(3) { /* Complaint text on mobile */
+        max-width: 150px;
+        font-size: 11px;
+    }
+    
+    .complaint-photo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    #photoModal .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 15px;
+    }
+    
+    #viewComplainHeading {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #complaintsTable {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    #complaintsTable th,
+    #complaintsTable td {
+        min-width: 80px;
+    }
+    
+    #complaintsTable td:nth-child(3) {
+        white-space: normal; /* Allow wrap on very small screens */
+    }
+    
+    .complaint-photo {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* ------------------ Action Column Toggle (for Students & Complaints Tables) ------------------ */
+/* Default: Hide Action column */
+.action-col {
+    display: none; /* Initially hidden */
+    width: 120px; /* Fixed width for Action column */
+    text-align: center;
+}
+
+/* Show Action column when table has 'show-actions' class */
+#studentsTable.show-actions .action-col,
+#complaintsTable.show-actions .action-col {
+    display: table-cell; /* Show as table cell */
+}
+
+/* Remove Button Styles (for both Students & Complaints) */
+.remove-student-btn,
+.remove-complaint-btn {
+    background-color: #ff4757; /* Red background for delete */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(255, 71, 87, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.remove-student-btn:hover,
+.remove-complaint-btn:hover {
+    background-color: #ff3838; /* Darker red on hover */
+    transform: translateY(-1px); /* Slight lift */
+    box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4);
+}
+
+.remove-student-btn:active,
+.remove-complaint-btn:active {
+    transform: translateY(0); /* Press effect */
+}
+
+/* Toggle Button Styles (for Remove Options) */
+#removeStudentBtn,
+#toggleComplaintActions {
+    background: linear-gradient(135deg, #f8406b, #ff1d51); /* Teal-blue gradient, matching theme */
+    color: white;
+    border: none;
+    padding: 10px 20px 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 5px 400px 5px 450px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(79, 172, 254, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#removeStudentBtn:hover,
+#toggleComplaintActions:hover {
+    background: linear-gradient(135deg, #ff1d51, #f8406b); /* Reverse gradient on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+#removeStudentBtn:active,
+#toggleComplaintActions:active {
+    transform: translateY(0);
+}
+
+/* Footer Styles for Students & Complaints */
+.students-footer,
+.complaints-footer {
+    margin-top: 15px;
+    text-align: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Update Colspan for Empty States (JS handles this, but CSS for consistency) */
+#studentsTableBody td[colspan="3"],
+#complaintsTableBody td[colspan="6"] {
+    padding: 40px;
+    background: #f8f9fa;
+    color: #999;
+    font-style: italic;
+    border: none;
+}
+
+/* Responsive: Hide Action on small screens if needed */
+@media (max-width: 768px) {
+    .action-col {
+        width: 80px; /* Smaller on mobile */
+    }
+    
+    .remove-student-btn,
+    .remove-complaint-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+    
+    #removeStudentBtn,
+    #toggleComplaintActions {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+}

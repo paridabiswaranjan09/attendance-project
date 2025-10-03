@@ -1,0 +1,281 @@
+/* ------------------- Reset ------------------- */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ------------------- Body & Background ------------------- */
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(270deg,#1a1a2e,#162447,#1a1a2e,#0f3460);
+    background-size:800% 800%;
+    animation:gradientBG 15s ease infinite;
+    font-family:'Poppins',sans-serif;
+    overflow:hidden;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ------------------- Login Table (Admin/Teacher/Student) ------------------- */
+.login-table{
+    background:linear-gradient(270deg,#ffe5ec,#e0f7fa,#fff3e0,#fce1ff);
+    background-size:800% 800%;
+    animation:tableGradient 10s ease infinite;
+    padding:50px 40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,0.3);
+    transition: all 0.6s ease, opacity 0.6s ease, transform 0.6s ease;
+    min-width:350px;
+    z-index:1;
+    opacity:1;
+    transform: scale(1);
+}
+
+.login-table.hide{
+    opacity:0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+@keyframes tableGradient{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.login-table h1{
+    font-family:'Roboto Slab', serif;
+    font-size:2.8rem;
+    color:#222;
+    margin-bottom:15px;
+}
+
+.login-table h2{
+    font-size:1.3rem;
+    color:#555;
+    margin-bottom:20px;
+    font-weight:500;
+}
+
+.login-table h3{
+    font-size:1.1rem;
+    color:#777;
+    margin-bottom:30px;
+}
+
+/* ------------------- Login Buttons ------------------- */
+.login-btns button{
+    display:inline-block;
+    margin:10px 15px;
+    padding:14px 28px;
+    font-size:1rem;
+    font-weight:600;
+    color:#fff;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    transition: all 0.3s ease;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.login-btns .admin{background:linear-gradient(135deg,#ebf489,#f88da0);}
+.login-btns .teacher{background:linear-gradient(135deg,#42e695,#3bb2b8);}
+.login-btns .student{background:linear-gradient(135deg,#fbc2eb,#c55ffc);}
+
+.login-btns button:hover{
+    transform:translateY(-3px);
+}
+
+/* ------------------- Floating Tables (Admin Login/Signup) ------------------- */
+.floating-table{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:linear-gradient(135deg,#ffe5ec,#e0f7fa,#fff3e0,#fce1ff);
+    background-size:800% 800%;
+    animation:tableGradient 10s ease infinite;
+    padding:40px 30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,0.3);
+    min-width:320px;
+    transition:all 0.6s ease,opacity 0.6s ease;
+    opacity:0;
+    z-index:2;
+}
+
+.floating-table.show{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
+}
+
+.floating-table h1{
+    font-family:'Roboto Slab',serif;
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.floating-table h2{
+    font-size:1rem;
+    color:#444;
+    margin-bottom:20px;
+}
+
+.floating-table input{
+    width:80%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:12px;
+    border:1px solid #aaa;
+    outline:none;
+    font-size:1rem;
+}
+
+.floating-table button{
+    padding:10px 25px;
+    margin:10px 10px;
+    font-weight:600;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:1rem;
+    color:#fff;
+    transition:all 0.3s ease;
+}
+
+.login-btn{background:linear-gradient(135deg,#ff6a88,#ff99ac);}
+.signup-btn{background:linear-gradient(135deg,#42e695,#3bb2b8);}
+
+.floating-table button:hover{
+    opacity:0.9; 
+    transform:translateY(-2px);
+}
+
+/* Hover effects for buttons */
+.login-btn.admin:hover {
+    background: linear-gradient(135deg, #f88da0, #ebf489);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-btn.teacher:hover {
+    background: linear-gradient(135deg, #3bb2b8, #42e695);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-btn.student:hover {
+    background: linear-gradient(135deg, #c55ffc, #fbc2eb);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ------------------- Message Box ------------------- */
+.msg-box{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:linear-gradient(135deg,#ffdde1,#fcb69f,#ff9a9e);
+    padding:15px 30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    color:#222;
+    font-weight:600;
+    display:none;
+    z-index:3;
+}
+
+/* ------------------- Stylish Next Button in Msg Box ------------------- */
+#msgBox button {
+    background: linear-gradient(135deg,#42e695,#3bb2b8);
+    border:none;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+    margin-left:10px;
+    transition:all 0.3s ease;
+}
+
+#msgBox button:hover {
+    background: linear-gradient(135deg,#3bb2b8,#42e695);
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 600px) {
+  .table-box {
+    width: 90%;
+    font-size: 14px;
+    padding: 15px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+#studentCourseSelectionModal, #studentBranchSelectionModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0,0,0,0.4);
+}
+#studentCourseSelectionModal .modal-content,
+#studentBranchSelectionModal .modal-content {
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  margin: 8% auto;
+  padding: 30px 20px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+  animation: modalFade 0.4s ease;
+}
+#studentCourseSelectionTable, #studentBranchSelectionTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#studentCourseSelectionTable th, #studentBranchSelectionTable th {
+  background: linear-gradient(90deg, #89f7fe, #66a6ff);
+  color: #000;
+  padding: 12px;
+}
+#studentCourseSelectionTable td, #studentBranchSelectionTable td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+#studentCourseSelectionTable tbody tr:hover, #studentBranchSelectionTable tbody tr:hover {
+  background: #e0f7ff;
+  cursor: pointer;
+}
+/* Add .close, .modal styles if not present */
+.close { color: #555; position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; }
+.close:hover { color: #222; }
+@keyframes modalFade {
+     from { opacity: 0; transform: translateY(-50px); 
+    } to { 
+        opacity: 1; transform: translateY(0); } 
+    }
