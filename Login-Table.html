@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Login-Table-style.css" />
+</head>
+<body>
+
+    <!-- Main Login Table -->
+    <div class="login-table">
+        <h1>Attendance Management System</h1>
+        <h2>Welcome Back!! Let's make today productive!</h2>
+        <h3>How should you login?</h3>
+        <div class="login-btns">
+            <button class="login-btn admin">Admin</button>
+            <button class="login-btn teacher">Teacher</button>
+            <button class="login-btn student">Student</button>
+        </div>
+    </div>
+
+    <!-- Admin Login Table -->
+    <div class="floating-table" id="adminLogin">
+        <h1>Hey Admin !!</h1>
+        <h2>Time to mark your presence.</h2>
+        <input type="text" id="adminName" placeholder="Name" required>
+        <input type="password" id="adminPass" placeholder="Password" required>
+        <div>
+            <button class="login-btn" id="adminLoginBtn">Login</button>
+            <button class="signup-btn" id="adminSignupBtn">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Admin Signup Table -->
+    <div class="floating-table" id="adminSignup">
+        <h1>Hey Admin, let's add you !!</h1>
+        <input type="text" id="signupName" placeholder="Name" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="text" id="signupPhone" placeholder="Phone No." required>
+        <input type="password" id="signupPass" placeholder="Password" required>
+        <input type="password" id="signupConfirm" placeholder="Confirm Password" required>
+        <button class="signup-btn" id="createAccountBtn">Create Account</button>
+    </div>
+
+    <!-- Message Box -->
+    <div class="msg-box" id="msgBox">You are added!</div>
+
+    <!-- Teacher Login Table -->
+    <div class="floating-table" id="teacherLogin">
+        <h1>Hey Teacher !!</h1>
+        <h2>Login to mark your attendance</h2>
+        <input type="text" id="teacherName" placeholder="Name" required>
+        <input type="text" id="teacherId" placeholder="Teacher ID" required>
+        <div>
+            <button class="login-btn" id="teacherLoginBtn">Login</button>
+        </div>
+    </div>
+
+    <!-- NEW: Student Login Table -->
+    <div class="floating-table" id="studentLogin">
+        <h1>Hey champ!!</h1>
+        <blockquote>"Your education is the most powerful weapon you can use to change the world!" - Nelson Mandela</blockquote>
+        <h2>Welcome back!</h2>
+        <input type="text" id="studentName" placeholder="Full Name" required>
+        <input type="text" id="studentRegdNo" placeholder="Regd No." required>
+        <div>
+            <button class="login-btn" id="studentLoginBtn">Login</button>
+        </div>
+    </div>
+
+    <!-- NEW: Course Selection Modal for Student -->
+    <div id="studentCourseSelectionModal" class="modal">
+        <div class="modal-content">
+            <span id="closeStudentCourseSelectionModal" class="close">&times;</span>
+            <h2>Select Course</h2>
+            <table id="studentCourseSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+                <thead>
+                    <tr><th>Course Name</th></tr>
+                </thead>
+                <tbody id="studentCourseSelectionTableBody">
+                    <!-- Courses will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- NEW: Branch Selection Modal for Student -->
+    <div id="studentBranchSelectionModal" class="modal">
+        <div class="modal-content">
+            <span id="closeStudentBranchSelectionModal" class="close">&times;</span>
+            <h2>Select Branch for <span id="studentSelectedCourseName"></span></h2>
+            <table id="studentBranchSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+                <thead>
+                    <tr><th>Branch Name</th></tr>
+                </thead>
+                <tbody id="studentBranchSelectionTableBody">
+                    <!-- Branches will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="Login-Table.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-dashboard.css" />
+  <!-- jsPDF for PDF Download in View Attendance -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="profile">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile Picture">
+        <h3>Hey, <span id="adminNameDisplay">Admin</span></h3>
+      </div>
+      <div class="sidebar-buttons">
+        <button class="sidebar-btn" id="staffBtn">Staffs / Teacher List</button>
+        <button class="sidebar-btn" id="courseBtn">Course & Branches</button>
+        <button class="sidebar-btn" id="viewAttendanceBtn">View Attendance</button>
+        <button class="sidebar-btn" id="changePassBtn">Change Password</button>
+        <button class="sidebar-btn" id="logoutBtn">Log Out</button>
+      </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="main-panel" id="mainPanel">
+      <h1>Welcome, Admin!</h1>
+
+      <!-- Teacher Section -->
+      <div class="teacher-section" id="teacherSection" style="display:none;">
+        <h1>Staffs / Teacher List</h1>
+        <table id="teacherTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Teacher Name</th>
+              <th>Teacher ID</th>
+              <th>Profession</th>
+              <th id="actionCol">Action</th>
+            </tr>
+          </thead>
+          <tbody id="teacherTableBody">
+            <tr><td colspan="4" style="text-align:center;">Not added yet</td></tr>
+          </tbody>
+        </table>
+        <div class="teacher-footer" style="margin-top:15px; text-align:center;">
+          <button id="addTeacherBtn">Add Teacher</button>
+          <button id="removeTeacherBtn">Remove Teacher</button>
+        </div>
+      </div>
+
+      <!-- Course Section -->
+      <div class="course-section" id="courseSection" style="display:none;">
+        <h1>Courses and Branches</h1>
+        <table id="courseTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th id="actionCol">Action</th>
+            </tr>
+          </thead>
+          <tbody id="courseTableBody">
+            <tr><td colspan="2" style="text-align:center;">No courses yet</td></tr>
+          </tbody>
+        </table>
+        <div class="course-footer" style="margin-top:10px; text-align:center;">
+          <button id="addCourseBtn">Add Course</button>
+          <button id="removeCourseBtn">Remove Course</button>
+        </div>
+      </div>
+
+      <!-- Attendance Section (Updated) -->
+      <div class="attendance-section" id="attendanceSection" style="display:none;">
+        <h1 id="attendanceHeading">View Attendance Records</h1>
+        <input type="date" id="adminAttendanceDate" style="margin-bottom:10px; padding:8px; border-radius:5px;">
+        <table id="adminAttendanceTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Regd No.</th>
+              <th>Status</th>
+              <th>Percentage (%)</th>
+            </tr>
+          </thead>
+          <tbody id="adminAttendanceTableBody">
+            <tr><td colspan="4" style="text-align:center;">Select course, branch, and date to view records</td></tr>
+          </tbody>
+        </table>
+        <div class="attendance-footer" style="margin-top:15px; text-align:center;">
+          <button id="downloadAdminPdfBtn">Download PDF</button>
+        </div>
+      </div>
+
+      <!-- Change Password Section -->
+      <div class="change-pass-section" id="changePassSection" style="display:none;">
+        <h1>Password Changed</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Existing Modals (Add Teacher, Add Course, Branch Table, Add Branch, Change Password) -->
+  <!-- Add Teacher Modal -->
+  <div id="addTeacherModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2>Add Teacher</h2>
+      <input type="text" id="tName" placeholder="Enter Teacher Name">
+      <input type="text" id="tId" placeholder="Enter Teacher ID">
+      <input type="text" id="tProfession" placeholder="Enter Profession">
+      <br>
+      <button id="confirmAddBtn">Add</button>
+    </div>
+  </div>
+
+  <!-- Add Course Modal -->
+  <div id="addCourseModal" class="modal">
+    <div class="modal-content">
+      <span id="closeCourseModal" class="close">&times;</span>
+      <h2>Add Course</h2>
+      <input type="text" id="courseNameInput" placeholder="Enter Course Name">
+      <button id="confirmAddCourseBtn">Add</button>
+    </div>
+  </div>
+
+  <!-- Branch Table Modal -->
+  <div id="branchTableModal" class="modal">
+    <div class="modal-content branch-modal-content">
+      <span id="closeBranchTableModal" class="close">&times;</span>
+      <h2>Branches of <span id="branchModalCourseName"></span></h2>
+      <table id="branchFloatTable" border="1" style="width:100%; border-collapse:collapse; margin-top:10px;">
+        <thead>
+          <tr>
+            <th>Branch Name</th>
+            <th id="branchFloatActionCol" style="display:none;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="branchFloatTableBody">
+          <tr><td colspan="2" style="text-align:center;">No branches yet</td></tr>
+        </tbody>
+      </table>
+      <div class="branch-footer" style="margin-top:10px; text-align:center;">
+        <button id="addBranchTableBtn">Add Branch</button>
+        <button id="removeBranchTableBtn">Remove Branch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Branch Float Modal -->
+  <div id="addBranchFloatModal" class="modal">
+    <div class="modal-content">
+      <span id="closeBranchFloatAddModal" class="close">&times;</span>
+      <h2>Add Branch</h2>
+      <input type="text" id="branchFloatNameInput" placeholder="Enter branch name" />
+      <button id="confirmAddBranchFloatBtn">Add</button>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeChangePassword">&times;</span>
+      <h2>Change Password</h2>
+      <input type="password" id="oldPassword" placeholder="Old Password" required>
+      <input type="password" id="newPassword" placeholder="New Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <p id="passwordMessage" style="color:red; font-size:14px; margin-top:5px;"></p>
+      <button id="savePasswordBtn">Save Password</button>
+    </div>
+  </div>
+
+  <!-- New: Course Selection Modal for View Attendance -->
+  <div id="adminCourseSelectionModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAdminCourseSelectionModal" class="close">&times;</span>
+      <h2>Select Course for Attendance View</h2>
+      <table id="adminCourseSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+        <thead>
+          <tr><th>Course Name</th></tr>
+        </thead>
+        <tbody id="adminCourseSelectionTableBody">
+          <!-- Courses will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- New: Branch Selection Modal for View Attendance -->
+  <div id="adminBranchSelectionModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAdminBranchSelectionModal" class="close">&times;</span>
+      <h2>Select Branch for <span id="adminSelectedCourseName"></span></h2>
+      <table id="adminBranchSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+        <thead>
+          <tr><th>Branch Name</th></tr>
+        </thead>
+        <tbody id="adminBranchSelectionTableBody">
+          <!-- Branches will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>
