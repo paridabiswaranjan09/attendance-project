@@ -43,20 +43,25 @@ function hideAllSections() {
   changePassSection.style.display = "none";
 }
 
-// ------------------ View Attendance New Logic ------------------
+// ------------------ View Attendance New Logic (Updated with Year) ------------------
 let adminCourses = JSON.parse(localStorage.getItem("courses")) || [];
 let adminSelectedCourse = null;
 let adminSelectedBranch = null;
-let adminSelectedCourseBranchKey = ""; // e.g., "BTech_CSE"
+let adminSelectedYear = null; // NEW: Year selection
+let adminSelectedCourseBranchYearKey = ""; // UPDATED: Now includes year, e.g., "BTech_CSE_1st_year"
 
 // Modal Elements for Admin View Attendance
 const adminCourseSelectionModal = document.getElementById("adminCourseSelectionModal");
 const adminBranchSelectionModal = document.getElementById("adminBranchSelectionModal");
+const adminYearSelectionModal = document.getElementById("adminYearSelectionModal"); // NEW: Year modal
 const adminCourseSelectionTableBody = document.getElementById("adminCourseSelectionTableBody");
 const adminBranchSelectionTableBody = document.getElementById("adminBranchSelectionTableBody");
+const adminYearSelectionTableBody = document.getElementById("adminYearSelectionTableBody"); // NEW: Year table body
 const adminSelectedCourseNameSpan = document.getElementById("adminSelectedCourseName");
+const adminSelectedCourseAndBranchSpan = document.getElementById("adminSelectedCourseAndBranch"); // NEW: For year modal header
 const closeAdminCourseSelectionModalBtn = document.getElementById("closeAdminCourseSelectionModal");
 const closeAdminBranchSelectionModalBtn = document.getElementById("closeAdminBranchSelectionModal");
+const closeAdminYearSelectionModalBtn = document.getElementById("closeAdminYearSelectionModal"); // NEW: Year close button
 
 // Attendance Section Elements
 const adminAttendanceDateInput = document.getElementById("adminAttendanceDate");
@@ -95,7 +100,7 @@ function openAdminBranchSelectionModal(course) {
       tr.innerHTML = `<td>${branch}</td>`;
       tr.addEventListener("click", () => {
         adminSelectedBranch = branch;
-        saveAdminSelectionAndLoadAttendance();
+        openAdminYearSelectionModal(course); // UPDATED: Open year modal after branch
       });
       adminBranchSelectionTableBody.appendChild(tr);
     });
@@ -104,18 +109,56 @@ function openAdminBranchSelectionModal(course) {
   adminBranchSelectionModal.style.display = "flex";
 }
 
+// NEW: Admin Year Selection Modal
+function openAdminYearSelectionModal(course) {
+  const courseAndBranch = `${course.name} - ${adminSelectedBranch}`;
+  adminSelectedCourseAndBranchSpan.textContent = courseAndBranch;
+  adminYearSelectionTableBody.innerHTML = "";
+  let years = [];
+  // Determine years based on course name
+  const courseNameLower = course.name.toLowerCase();
+  if (courseNameLower.includes("btech")) {
+    years = ["1st year", "2nd year", "3rd year", "4th year"];
+  } else if (courseNameLower.includes("diploma") || courseNameLower.includes("mca")) {
+    years = ["1st year", "2nd year", "3rd year"];
+  } else {
+    // Default for other courses
+    years = ["1st year"];
+  }
+  if (years.length === 0) {
+    adminYearSelectionTableBody.innerHTML = `<tr><td style="text-align:center;">No years available</td></tr>`;
+  } else {
+    years.forEach((year) => {
+      const tr = document.createElement("tr");
+      tr.style.cursor = "pointer";
+      tr.innerHTML = `<td>${year}</td>`;
+      tr.addEventListener("click", () => {
+        adminSelectedYear = year;
+        saveAdminSelectionAndLoadAttendance(); // Proceed to load attendance
+      });
+      adminYearSelectionTableBody.appendChild(tr);
+    });
+  }
+  adminBranchSelectionModal.style.display = "none";
+  adminYearSelectionModal.style.display = "flex";
+}
+
 function saveAdminSelectionAndLoadAttendance() {
-  if (adminSelectedCourse && adminSelectedBranch) {
+  if (adminSelectedCourse && adminSelectedBranch && adminSelectedYear) {
     const course = adminSelectedCourse.name;
     const branch = adminSelectedBranch;
-    adminSelectedCourseBranchKey = `${course}_${branch}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
-    localStorage.setItem("adminSelectedCourse", course); // Optional: Save for persistence
+    const year = adminSelectedYear;
+    // UPDATED: Create key with year
+    adminSelectedCourseBranchYearKey = `${course}_${branch}_${year}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+    localStorage.setItem("adminSelectedCourse", course);
     localStorage.setItem("adminSelectedBranch", branch);
-    adminBranchSelectionModal.style.display = "none";
+    localStorage.setItem("adminSelectedYear", year); // NEW: Save year
+    adminYearSelectionModal.style.display = "none"; // NEW: Close year modal
     // Show attendance section and load data
     hideAllSections();
     attendanceSection.style.display = "block";
-    adminAttendanceHeading.textContent = `Attendance Records - ${course} (${branch})`;
+    // UPDATED: Heading with year
+    adminAttendanceHeading.textContent = `Attendance Records - ${course} (${branch} - ${year})`;
     // Set default date to today
     if (!adminAttendanceDateInput.value) {
       adminAttendanceDateInput.value = new Date().toISOString().split('T')[0];
@@ -127,11 +170,12 @@ function saveAdminSelectionAndLoadAttendance() {
 // Close modals
 closeAdminCourseSelectionModalBtn.addEventListener("click", () => adminCourseSelectionModal.style.display = "none");
 closeAdminBranchSelectionModalBtn.addEventListener("click", () => adminBranchSelectionModal.style.display = "none");
+closeAdminYearSelectionModalBtn.addEventListener("click", () => adminYearSelectionModal.style.display = "none"); // NEW: Year close
 
-// Load Attendance Table for Selected Date
+// Load Attendance Table for Selected Date (UPDATED with Year)
 function loadAdminAttendanceTable() {
-  if (!adminSelectedCourseBranchKey) {
-    adminAttendanceTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Please select course and branch first</td></tr>';
+  if (!adminSelectedCourseBranchYearKey) {
+    adminAttendanceTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Please select course, branch, and year first</td></tr>';
     downloadAdminPdfBtn.disabled = true;
     downloadAdminPdfBtn.textContent = "Download PDF";
     return;
@@ -144,17 +188,17 @@ function loadAdminAttendanceTable() {
     return;
   }
 
-  // Load students for this course-branch
-  let students = JSON.parse(localStorage.getItem(`students_${adminSelectedCourseBranchKey}`) || "[]");
+  // UPDATED: Load students for this course-branch-year
+  let students = JSON.parse(localStorage.getItem(`students_${adminSelectedCourseBranchYearKey}`) || "[]");
   if (students.length === 0) {
-    adminAttendanceTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No students enrolled in this course-branch. Add students from Teacher Dashboard.</td></tr>';
+    adminAttendanceTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No students enrolled in this course-branch-year. Add students from Teacher Dashboard.</td></tr>';
     downloadAdminPdfBtn.disabled = true;
     downloadAdminPdfBtn.textContent = "No Data to Download";
     return;
   }
 
-  // Load attendance records for this date
-  const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchKey}_${date}`) || "[]");
+  // UPDATED: Load attendance records for this date with year key
+  const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchYearKey}_${date}`) || "[]");
   if (records.length === 0) {
     adminAttendanceTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No attendance records for this date</td></tr>';
     downloadAdminPdfBtn.disabled = true;
@@ -162,7 +206,7 @@ function loadAdminAttendanceTable() {
     return;
   }
 
-  // Calculate monthly percentages for all students (like in Teacher JS)
+  // Calculate monthly percentages for all students (UPDATED with year)
   calculateAdminMonthlyPercentage(students);
 
   // Match records with students and display
@@ -186,18 +230,18 @@ function loadAdminAttendanceTable() {
   downloadAdminPdfBtn.textContent = "Download PDF";
 }
 
-// Calculate Monthly Percentage for Students (Similar to Teacher's Function)
+// Calculate Monthly Percentage for Students (UPDATED with Year)
 function calculateAdminMonthlyPercentage(students) {
-  if (!adminSelectedCourseBranchKey) return;
+  if (!adminSelectedCourseBranchYearKey) return;
   const now = new Date();
   const currentMonth = now.getMonth() + 1; // 1-12
   const currentYear = now.getFullYear();
   let attendanceData = {};
 
-  // Collect all attendance dates in current month for this course/branch
+  // UPDATED: Collect all attendance dates in current month for this course/branch/year
   for (let i = 1; i <= 31; i++) {
     const dateStr = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-    const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchKey}_${dateStr}`) || "[]");
+    const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchYearKey}_${dateStr}`) || "[]");
     if (records.length > 0) {
       records.forEach(record => {
         if (!attendanceData[record.regdNo]) attendanceData[record.regdNo] = { present: 0, total: 0 };
@@ -219,24 +263,25 @@ function calculateAdminMonthlyPercentage(students) {
   // Note: We don't save back to localStorage here (read-only for admin), just use for display
 }
 
-// PDF Download Function for Admin
+// PDF Download Function for Admin (UPDATED with Year)
 function downloadAdminAttendancePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const date = adminAttendanceDateInput.value;
   const course = localStorage.getItem("adminSelectedCourse") || "";
   const branch = localStorage.getItem("adminSelectedBranch") || "";
-  const students = JSON.parse(localStorage.getItem(`students_${adminSelectedCourseBranchKey}`) || "[]");
-  const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchKey}_${date}`) || "[]");
+  const year = localStorage.getItem("adminSelectedYear") || ""; // NEW: Year in PDF
+  const students = JSON.parse(localStorage.getItem(`students_${adminSelectedCourseBranchYearKey}`) || "[]");
+  const records = JSON.parse(localStorage.getItem(`attendance_${adminSelectedCourseBranchYearKey}_${date}`) || "[]");
 
   // Calculate percentages for PDF
   calculateAdminMonthlyPercentage(students);
 
-  // Header
+  // Header - UPDATED with Year
   doc.setFontSize(20);
   doc.text(`Admin Attendance Report`, 105, 20, { align: 'center' });
   doc.setFontSize(12);
-  doc.text(`${course} - ${branch}`, 105, 35, { align: 'center' });
+  doc.text(`${course} - ${branch} - ${year}`, 105, 35, { align: 'center' }); // NEW: Year added
   doc.text(`Date: ${date}`, 105, 45, { align: 'center' });
 
   // Table Headers
@@ -282,8 +327,8 @@ function downloadAdminAttendancePDF() {
   doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, yPos, { align: 'center' });
   doc.text(`Total Students: ${students.length}`, 105, yPos + 5, { align: 'center' });
 
-  // Save PDF
-  const filename = `admin_attendance_${course.replace(/ /g, '_')}_${branch.replace(/ /g, '_')}_${date}.pdf`;
+  // Save PDF - UPDATED filename with year
+  const filename = `admin_attendance_${course.replace(/ /g, '_')}_${branch.replace(/ /g, '_')}_${year.replace(/ /g, '_')}_${date}.pdf`;
   doc.save(filename);
 }
 
@@ -297,13 +342,16 @@ downloadAdminPdfBtn.addEventListener("click", () => {
   }
 });
 
-// Close modals on outside click (for new modals)
+// Close modals on outside click (for new modals - UPDATED with Year)
 window.addEventListener("click", (event) => {
   if (event.target === adminCourseSelectionModal) {
     adminCourseSelectionModal.style.display = "none";
   }
   if (event.target === adminBranchSelectionModal) {
     adminBranchSelectionModal.style.display = "none";
+  }
+  if (event.target === adminYearSelectionModal) { // NEW: Year modal close
+    adminYearSelectionModal.style.display = "none";
   }
 });
 
@@ -555,7 +603,7 @@ document.getElementById("closeChangePassword").addEventListener("click", () => {
   document.getElementById("passwordMessage").textContent = "";
 });
 
-// ------------------ Close Modals on Outside Click (All Modals) ------------------
+// ------------------ Close Modals on Outside Click (All Modals - UPDATED with Year) ------------------
 window.addEventListener("click", (event) => {
   // Existing modals
   const modals = [
@@ -571,12 +619,15 @@ window.addEventListener("click", (event) => {
     }
   });
 
-  // New attendance modals
+  // New attendance modals (including year)
   if (event.target === adminCourseSelectionModal) {
     adminCourseSelectionModal.style.display = "none";
   }
   if (event.target === adminBranchSelectionModal) {
     adminBranchSelectionModal.style.display = "none";
+  }
+  if (event.target === adminYearSelectionModal) { // NEW: Year modal
+    adminYearSelectionModal.style.display = "none";
   }
 });
 

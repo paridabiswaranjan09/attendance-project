@@ -14,11 +14,15 @@ const mainLoginTable = document.querySelector(".login-table");
 // NEW: Student Modal Elements
 const studentCourseSelectionModal = document.getElementById("studentCourseSelectionModal");
 const studentBranchSelectionModal = document.getElementById("studentBranchSelectionModal");
+const studentYearSelectionModal = document.getElementById("studentYearSelectionModal"); // New: Year modal
 const studentCourseSelectionTableBody = document.getElementById("studentCourseSelectionTableBody");
 const studentBranchSelectionTableBody = document.getElementById("studentBranchSelectionTableBody");
+const studentYearSelectionTableBody = document.getElementById("studentYearSelectionTableBody"); // New: Year table body
 const studentSelectedCourseNameSpan = document.getElementById("studentSelectedCourseName");
+const studentSelectedCourseAndBranchSpan = document.getElementById("studentSelectedCourseAndBranch"); // New: For year modal header
 const closeStudentCourseSelectionModalBtn = document.getElementById("closeStudentCourseSelectionModal");
 const closeStudentBranchSelectionModalBtn = document.getElementById("closeStudentBranchSelectionModal");
+const closeStudentYearSelectionModalBtn = document.getElementById("closeStudentYearSelectionModal"); // New: Year close button
 
 // Load courses globally for student modal
 let courses = JSON.parse(localStorage.getItem("courses") || "[]");
@@ -177,17 +181,30 @@ document.getElementById("studentLoginBtn").addEventListener("click", () => {
         return;
     }
 
-    // Check if student exists in ANY course-branch
+    // Check if student exists in ANY course-branch-year (updated for year)
     let studentExists = false;
     for (let course of courses) {
         if (course.branches && course.branches.length > 0) {
             for (let branch of course.branches) {
-                const courseBranchKey = `${course.name}_${branch}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
-                let students = JSON.parse(localStorage.getItem(`students_${courseBranchKey}`) || "[]");
-                if (students.some(student => student.name.toLowerCase() === sName.toLowerCase() && student.regdNo === sRegdNo)) {
-                    studentExists = true;
-                    break;
+                // Determine years based on course
+                let years = [];
+                const courseNameLower = course.name.toLowerCase();
+                if (courseNameLower.includes("btech")) {
+                    years = ["1st year", "2nd year", "3rd year", "4th year"];
+                } else if (courseNameLower.includes("diploma") || courseNameLower.includes("mca")) {
+                    years = ["1st year", "2nd year", "3rd year"];
+                } else {
+                    years = ["1st year"];
                 }
+                for (let year of years) {
+                    const courseBranchYearKey = `${course.name}_${branch}_${year}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+                    let students = JSON.parse(localStorage.getItem(`students_${courseBranchYearKey}`) || "[]");
+                    if (students.some(student => student.name.toLowerCase() === sName.toLowerCase() && student.regdNo === sRegdNo)) {
+                        studentExists = true;
+                        break;
+                    }
+                }
+                if (studentExists) break;
             }
             if (studentExists) break;
         }
@@ -237,7 +254,7 @@ function openStudentBranchSelectionModal(course) {
             tr.style.cursor = "pointer";
             tr.innerHTML = `<td>${branch}</td>`;
             tr.addEventListener("click", () => {
-                verifyStudentInCourseBranch(course.name, branch);
+                openStudentYearSelectionModal(course, branch); // Updated: Open year modal after branch
             });
             studentBranchSelectionTableBody.appendChild(tr);
         });
@@ -246,31 +263,68 @@ function openStudentBranchSelectionModal(course) {
     studentBranchSelectionModal.style.display = "flex";
 }
 
-// NEW: Verify Student in Specific Course-Branch
-function verifyStudentInCourseBranch(courseName, branch) {
+// NEW: Student Year Selection Modal
+function openStudentYearSelectionModal(course, branch) {
+    studentSelectedCourseAndBranchSpan.textContent = `${course.name} - ${branch}`;
+    studentYearSelectionTableBody.innerHTML = "";
+    let years = [];
+    // Determine years based on course name
+    const courseNameLower = course.name.toLowerCase();
+    if (courseNameLower.includes("btech")) {
+        years = ["1st year", "2nd year", "3rd year", "4th year"];
+    } else if (courseNameLower.includes("diploma") || courseNameLower.includes("mca")) {
+        years = ["1st year", "2nd year", "3rd year"];
+    } else {
+        // Default for other courses
+        years = ["1st year"];
+    }
+    if (years.length === 0) {
+        studentYearSelectionTableBody.innerHTML = `<tr><td style="text-align:center;">No years available</td></tr>`;
+    } else {
+        years.forEach((year) => {
+            const tr = document.createElement("tr");
+            tr.style.cursor = "pointer";
+            tr.innerHTML = `<td>${year}</td>`;
+            tr.addEventListener("click", () => {
+                verifyStudentInCourseBranchYear(course.name, branch, year); // Verify after year selection
+            });
+            studentYearSelectionTableBody.appendChild(tr);
+        });
+    }
+    studentBranchSelectionModal.style.display = "none";
+    studentYearSelectionModal.style.display = "flex";
+}
+
+// NEW: Verify Student in Specific Course-Branch-Year
+function verifyStudentInCourseBranchYear(courseName, branch, year) {
     const sName = localStorage.getItem("studentTempName");
     const sRegdNo = localStorage.getItem("studentTempRegdNo");
-    const courseBranchKey = `${courseName}_${branch}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+    const courseBranchYearKey = `${courseName}_${branch}_${year}`.replace(/ /g, "_").replace(/[^a-zA-Z0-9_]/g, "");
 
-    let students = JSON.parse(localStorage.getItem(`students_${courseBranchKey}`) || "[]");
+    let students = JSON.parse(localStorage.getItem(`students_${courseBranchYearKey}`) || "[]");
     let enrolled = students.some(student => student.name.toLowerCase() === sName.toLowerCase() && student.regdNo === sRegdNo);
 
     if (!enrolled) {
         // Close modal and show error
-        studentBranchSelectionModal.style.display = "none";
-        showFloatingMessage("You are not enrolled in this course-branch. Select another.");
+        studentYearSelectionModal.style.display = "none";
+        showFloatingMessage("You are not enrolled in this course-branch-year. Select another.");
         return;
     }
 
-    // Success: Save student details and selected course-branch
+    // Success: Save student details and selected course-branch-year
     localStorage.setItem("studentName", sName);
     localStorage.setItem("studentRegdNo", sRegdNo);
     localStorage.setItem("studentSelectedCourse", courseName);
     localStorage.setItem("studentSelectedBranch", branch);
-    localStorage.setItem("studentCourseBranchKey", courseBranchKey);
+    localStorage.setItem("studentSelectedYear", year); // New: Save year (e.g., "1st year")
+    localStorage.setItem("studentCourseBranchYearKey", courseBranchYearKey); // Updated: Include year in key (e.g., "BTECH_CSE_1st_year")
+
+    // Clear temp data
+    localStorage.removeItem("studentTempName");
+    localStorage.removeItem("studentTempRegdNo");
 
     // Close modal
-    studentBranchSelectionModal.style.display = "none";
+    studentYearSelectionModal.style.display = "none";
 
     // Hide student login and show success message, then redirect
     hideTable(studentLogin, () => {
@@ -294,6 +348,12 @@ closeStudentBranchSelectionModalBtn.addEventListener("click", () => {
     localStorage.removeItem("studentTempRegdNo");
 });
 
+closeStudentYearSelectionModalBtn.addEventListener("click", () => { // New: Year close
+    studentYearSelectionModal.style.display = "none";
+    localStorage.removeItem("studentTempName");
+    localStorage.removeItem("studentTempRegdNo");
+});
+
 // NEW: Close modals on outside click
 window.addEventListener("click", (event) => {
     if (event.target === studentCourseSelectionModal) {
@@ -303,6 +363,11 @@ window.addEventListener("click", (event) => {
     }
     if (event.target === studentBranchSelectionModal) {
         studentBranchSelectionModal.style.display = "none";
+        localStorage.removeItem("studentTempName");
+        localStorage.removeItem("studentTempRegdNo");
+    }
+    if (event.target === studentYearSelectionModal) { // New: Year modal close
+        studentYearSelectionModal.style.display = "none";
         localStorage.removeItem("studentTempName");
         localStorage.removeItem("studentTempRegdNo");
     }

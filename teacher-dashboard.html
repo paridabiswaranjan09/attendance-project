@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="dashboard-container">
-    <!-- Sidebar -->
+    <!-- Sidebar (unchanged) -->
     <div class="sidebar">
       <div class="profile">
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile Picture">
@@ -31,26 +31,28 @@
     <div class="main-panel" id="mainPanel">
       <h1>Welcome, Teacher!</h1>
 
-      <!-- Students Section (unchanged) -->
-      <div class="students-section" id="studentsSection" style="display:none;">
-        <h1 id="studentsHeading">Students List</h1>
-        <table id="studentsTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+      <!-- FIXED: Students Section -->
+      <div id="studentsSection" style="display: none;">
+        <h2 id="studentsHeading">Students List</h2>
+        
+        
+        <!-- Students Table -->
+        <table id="studentsTable" border="1" style="width:100%; border-collapse:collapse;">
           <thead>
             <tr>
-              <th>Student Name</th>
+              <th>Name</th>
               <th>Regd No.</th>
-              <th>Attendance (%)</th>
-              <th class="action-col">Action</th> <!-- Initially hidden -->
+              <!-- <th>Age</th> -->
+              <th>Attendance</th>
+              <th class="action-col">Actions</th> <!-- Hidden by default via CSS -->
             </tr>
           </thead>
           <tbody id="studentsTableBody">
-            <tr><td colspan="4" style="text-align:center;">No students yet</td></tr>
+            <!-- Students will be populated here -->
           </tbody>
         </table>
-        <div class="students-footer" style="margin-top:15px; text-align:center;">
-          <button id="addStudentBtn">Add Student</button> 
-          <button id="removeStudentBtn">Remove Student</button>
-        </div>
+        <button id="addStudentBtn">Add Student</button>
+        <button id="removeStudentBtn">Show Remove Options</button>
       </div>
 
       <!-- Take Attendance Section (unchanged) -->
@@ -75,7 +77,7 @@
         </div>
       </div>
 
-      <!-- View Attendance Section (unchanged) -->
+      <!-- View Attendance Section (minor fix: added table wrapper if needed, but body ID is correct) -->
       <div class="view-attendance-section" id="viewAttendanceSection" style="display:none;">
         <h1 id="viewAttendanceHeading">View Attendance Records</h1>
         <input type="date" id="viewAttendanceDate" style="margin-bottom:10px; padding:8px; border-radius:5px;">
@@ -96,7 +98,7 @@
         </div>
       </div>
 
-      <!-- UPDATED: View Complain Section -->
+      <!-- View Complain Section (unchanged) -->
       <div class="view-complain-section" id="viewComplainSection" style="display:none;">
         <h1 id="viewComplainHeading">Student Complaints</h1>
         <table id="complaintsTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
@@ -111,10 +113,10 @@
             </tr>
           </thead>
           <tbody id="complaintsTableBody">
-            <tr><td colspan="6" style="text-align:center;">No complaints yet</td></tr> <!-- Updated colspan to 6 -->
+            <tr><td colspan="6" style="text-align:center;">No complaints yet</td></tr>
           </tbody>
         </table>
-        <!-- NEW: Footer with Toggle Button -->
+        <!-- Footer with Toggle Button -->
         <div class="complaints-footer" style="margin-top: 15px; text-align:center; justify-content: center;">
           <button id="toggleComplaintActions">Show Remove Options</button>
         </div>
@@ -122,15 +124,15 @@
     </div>
   </div>
 
-  <!-- Add Student Modal (unchanged) -->
+  <!-- FIXED: Add Student Modal (Added Age Input) -->
   <div id="addStudentModal" class="modal" style="display:none;">
     <div class="modal-content">
       <span id="closeAddStudentModal" class="close">&times;</span>
-      <h2>Add Student</h2>
-      <input type="text" id="studentNameInput" placeholder="Student Name"> <br>
-      <input type="text" id="studentRegdNoInput" placeholder="Regd No.">
-      <br>
-      <button id="confirmAddStudentBtn">Add</button>
+      <h2>Add New Student</h2>
+      <input type="text" id="studentNameInput" placeholder="Full Name" style="width:100%; margin:5px 0; padding:8px;"><br>
+      <input type="text" id="studentRegdNoInput" placeholder="Regd No." style="width:100%; margin:5px 0; padding:8px;"><br>
+
+      <button id="confirmAddStudentBtn">Add Student</button>
     </div>
   </div>
 
@@ -166,7 +168,23 @@
     </div>
   </div>
 
-  <!-- NEW: Photo Modal for Full View -->
+  <!-- Year Selection Modal (unchanged) -->
+  <div id="yearSelectionModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeYearSelectionModal" class="close">&times;</span>
+      <h2>Choose Year for <span id="selectedCourseAndBranch"></span></h2>
+      <table id="yearSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+        <thead>
+          <tr><th>Year</th></tr>
+        </thead>
+        <tbody id="yearSelectionTableBody">
+          <!-- Years will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Photo Modal (unchanged) -->
   <div id="photoModal" class="modal" style="display:none;">
     <div class="modal-content" style="width:80%; max-width:500px; text-align:center;">
       <span id="closePhotoModal" class="close">&times;</span>

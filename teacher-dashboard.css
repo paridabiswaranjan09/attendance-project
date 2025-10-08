@@ -269,7 +269,7 @@ body {
 }
 
 /* ---------- Table Styling for Modals ---------- */
-#courseSelectionTable, #branchSelectionTable {
+#courseSelectionTable, #branchSelectionTable, #yearSelectionTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
@@ -280,7 +280,7 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-#courseSelectionTable th, #branchSelectionTable th {
+#courseSelectionTable th, #branchSelectionTable th, #yearSelectionTable th {
   background: linear-gradient(90deg, #89f7fe, #66a6ff);
   color: #010000;
   font-weight: 600;
@@ -288,20 +288,24 @@ body {
   text-align: left;
 }
 
-#courseSelectionTable td, #branchSelectionTable td {
+#courseSelectionTable td, #branchSelectionTable td, #yearSelectionTable td{
   padding: 12px 15px;
   border-bottom: 1px solid #e0e0e0;
   font-weight: 500;
   color: #333;
 }
 
-#courseSelectionTable tbody tr:hover, #branchSelectionTable tbody tr:hover {
+#courseSelectionTable tbody tr:hover,
+ #branchSelectionTable tbody tr:hover,
+  #yearSelectionTable tbody tr:hover {
   background-color: #e0f7ff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-#courseSelectionTable tbody tr:last-child td, #branchSelectionTable tbody tr:last-child td {
+#courseSelectionTable tbody tr:last-child td, 
+#branchSelectionTable tbody tr:last-child td,
+ #yearSelectionTable tbody tr:last-child td {
   border-bottom: none;
 }
 
@@ -410,64 +414,146 @@ body {
   border-radius: 10px;
 }
 
-#addStudentBtn,
-#saveAttendanceBtn,
-#removeStudentBtn,
-#downloadPdfBtn {
-  padding: 12px 25px;
-  margin: 0 10px;
+/* Add Student Button */
+#addStudentBtn {
+  padding: 10px 25px;
+  background-color: #a1fef6; /* light soft cyan (similar to add teacher) */
+  color: #333;
   border: none;
-  border-radius: 25px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  white-space: nowrap;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  margin-left: 465px;
+  margin-top: 10px ;
 }
 
-#addStudentBtn,
+#addStudentBtn:hover {
+  background-color: #5cf1f9;
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Save Attendance Button */
 #saveAttendanceBtn {
-  background: linear-gradient(135deg, #4caf50, #45a049);
-  color: #fff;
+  padding: 10px 25px;
+  background-color: #a1f6a1; /* light soft green for positive action */
+  color: #333;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-#addStudentBtn:hover,
 #saveAttendanceBtn:hover {
-  background: linear-gradient(135deg, #45a049, #4caf50);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+  background-color: #5cf95c;
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
+/* Remove Student Button */
 #removeStudentBtn {
-  background: linear-gradient(135deg, #f44336, #da190b);
-  color: #fff;
+  padding: 10px 25px;
+  background-color: #ffc978; /* soft light orange (similar to remove teacher) */
+  color: #333;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  
 }
 
 #removeStudentBtn:hover {
-  background: linear-gradient(135deg, #da190b, #f44336);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+  background-color: #fdbf53;
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-/* ---------- Download PDF Button Styling ---------- */
+/* Toggle Complaint Actions Button */
+#toggleComplaintActions {
+  padding: 10px 25px;
+  background-color: #ffc978; /* soft light orange (remove theme, like remove teacher) */
+  color: #333;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  
+
+}
+
+#toggleComplaintActions:hover {
+  background-color: #fdbf53;
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Download PDF Button */
 #downloadPdfBtn {
-  background: linear-gradient(135deg, #2196f3, #21cbf3);
-  color: #fff;
+  padding: 10px 25px;
+  background-color: #a1d6f6; /* light soft blue for download/action */
+  color: #333;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 #downloadPdfBtn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #21cbf3, #2196f3);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+  background-color: #5cc8f9;
+  font-weight: 750;
+  font-size: medium;
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
 #downloadPdfBtn:disabled {
-  background: #ccc;
+  background-color: #e0e0e0; /* light gray for disabled */
+  color: #999;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
-  color: #999;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-weight: 500;
+  font-size: 16px;
 }
+
+#downloadPdfBtn:disabled:hover {
+  background-color: #e0e0e0;
+  transform: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
 
 /* ---------- Inline Remove Button in Table ---------- */
 .remove-student-btn {
@@ -480,6 +566,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+ 
 }
 
 .remove-student-btn:hover {
@@ -487,6 +574,7 @@ body {
   transform: scale(1.05);
   box-shadow: 0 3px 10px rgba(244, 67, 54, 0.3);
 }
+
 
 /* Radio Buttons in Attendance Table */
 #attendanceTable input[type="radio"] {

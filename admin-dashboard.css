@@ -766,7 +766,7 @@ body {
 }
 
 /* New Modals for Course/Branch Selection (same style as existing modals) */
-#adminCourseSelectionModal, #adminBranchSelectionModal {
+#adminCourseSelectionModal, #adminBranchSelectionModal, #adminYearSelectionModal {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -780,7 +780,8 @@ body {
 }
 
 #adminCourseSelectionModal .modal-content,
-#adminBranchSelectionModal .modal-content {
+#adminBranchSelectionModal .modal-content,
+#adminYearSelectionModal .modal-content  {
   background: linear-gradient(135deg, #a8edea, #fed6e3);
   margin: 8% auto;
   padding: 30px 20px;
@@ -794,7 +795,7 @@ body {
   overflow-y: auto;
 }
 
-#adminCourseSelectionTable, #adminBranchSelectionTable {
+#adminCourseSelectionTable, #adminBranchSelectionTable, #adminYearSelectionTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
@@ -804,7 +805,7 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-#adminCourseSelectionTable th, #adminBranchSelectionTable th {
+#adminCourseSelectionTable th, #adminBranchSelectionTable th, #adminYearSelectionTable th {
   background: linear-gradient(90deg, #89f7fe, #66a6ff);
   color: #010000;
   padding: 12px 15px;
@@ -812,14 +813,16 @@ body {
   font-weight: 600;
 }
 
-#adminCourseSelectionTable td, #adminBranchSelectionTable td {
+#adminCourseSelectionTable td, #adminBranchSelectionTable td, #adminYearSelectionTable td {
   padding: 12px 15px;
   border-bottom: 1px solid #e0e0e0;
   color: #333;
   transition: background-color 0.3s ease;
 }
 
-#adminCourseSelectionTable tbody tr:hover, #adminBranchSelectionTable tbody tr:hover {
+#adminCourseSelectionTable tbody tr:hover,
+ #adminBranchSelectionTable tbody tr:hover,
+  #adminYearSelectionTable tbody tr:hover{
   background-color: #e0f7ff;
   cursor: pointer;
   transform: scale(1.02);

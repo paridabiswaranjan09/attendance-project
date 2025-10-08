@@ -58,49 +58,65 @@
         </div>
     </div>
 
-    <!-- NEW: Student Login Table -->
-    <div class="floating-table" id="studentLogin">
-        <h1>Hey champ!!</h1>
-        <blockquote>"Your education is the most powerful weapon you can use to change the world!" - Nelson Mandela</blockquote>
-        <h2>Welcome back!</h2>
-        <input type="text" id="studentName" placeholder="Full Name" required>
-        <input type="text" id="studentRegdNo" placeholder="Regd No." required>
-        <div>
-            <button class="login-btn" id="studentLoginBtn">Login</button>
-        </div>
+  <!-- NEW: Student Login Table -->
+<div class="floating-table" id="studentLogin">
+    <h1>Hey champ!!</h1>
+    <blockquote>"Your education is the most powerful weapon you can use to change the world!" - Nelson Mandela</blockquote>
+    <h2>Welcome back!</h2>
+    <input type="text" id="studentName" placeholder="Full Name" required>
+    <input type="text" id="studentRegdNo" placeholder="Regd No." required>
+    <div>
+        <button class="login-btn" id="studentLoginBtn">Login</button>
     </div>
+</div>
 
-    <!-- NEW: Course Selection Modal for Student -->
-    <div id="studentCourseSelectionModal" class="modal">
-        <div class="modal-content">
-            <span id="closeStudentCourseSelectionModal" class="close">&times;</span>
-            <h2>Select Course</h2>
-            <table id="studentCourseSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
-                <thead>
-                    <tr><th>Course Name</th></tr>
-                </thead>
-                <tbody id="studentCourseSelectionTableBody">
-                    <!-- Courses will be populated here -->
-                </tbody>
-            </table>
-        </div>
+<!-- NEW: Course Selection Modal for Student -->
+<div id="studentCourseSelectionModal" class="modal">
+    <div class="modal-content">
+        <span id="closeStudentCourseSelectionModal" class="close">&times;</span>
+        <h2>Select Course</h2>
+        <table id="studentCourseSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+            <thead>
+                <tr><th>Course Name</th></tr>
+            </thead>
+            <tbody id="studentCourseSelectionTableBody">
+                <!-- Courses will be populated here -->
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <!-- NEW: Branch Selection Modal for Student -->
-    <div id="studentBranchSelectionModal" class="modal">
-        <div class="modal-content">
-            <span id="closeStudentBranchSelectionModal" class="close">&times;</span>
-            <h2>Select Branch for <span id="studentSelectedCourseName"></span></h2>
-            <table id="studentBranchSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
-                <thead>
-                    <tr><th>Branch Name</th></tr>
-                </thead>
-                <tbody id="studentBranchSelectionTableBody">
-                    <!-- Branches will be populated here -->
-                </tbody>
-            </table>
-        </div>
+<!-- NEW: Branch Selection Modal for Student -->
+<div id="studentBranchSelectionModal" class="modal">
+    <div class="modal-content">
+        <span id="closeStudentBranchSelectionModal" class="close">&times;</span>
+        <h2>Select Branch for <span id="studentSelectedCourseName"></span></h2>
+        <table id="studentBranchSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+            <thead>
+                <tr><th>Branch Name</th></tr>
+            </thead>
+            <tbody id="studentBranchSelectionTableBody">
+                <!-- Branches will be populated here -->
+            </tbody>
+        </table>
     </div>
+</div>
+
+<!-- NEW: Year Selection Modal for Student -->
+<div id="studentYearSelectionModal" class="modal">
+    <div class="modal-content">
+        <span id="closeStudentYearSelectionModal" class="close">&times;</span>
+        <h2>Choose Year for <span id="studentSelectedCourseAndBranch"></span></h2>
+        <table id="studentYearSelectionTable" border="1" style="width:100%; border-collapse:collapse; margin-top:15px;">
+            <thead>
+                <tr><th>Year</th></tr>
+            </thead>
+            <tbody id="studentYearSelectionTableBody">
+                <!-- Years will be populated here (e.g., based on course: BTech - 4 years, Diploma/MCA - 3 years) -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
     <script src="Login-Table.js"></script>
 </body>
